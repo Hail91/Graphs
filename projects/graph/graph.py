@@ -134,22 +134,20 @@ class Graph:
 
         This should be done using recursion.
         """
-        if path is None:
-            path = []
-        if visited is None:
+        if visited == None:
             visited = set()
-        # Need to add the starting vertex to the path
-        path.append(starting_vertex)
-        # Now need to add that vertex to visited since we've been there.
-        visited.add(starting_vertex)
-
-        # Now we need to have a base case to cancel the recursion, in this case, it will be when we reach our destination
-        if starting_vertex == destination_vertex:
-            return path
-        # Need to loop over starting vertex's connections recursively
+        if path == None:
+            path = []
+        if starting_vertex not in visited:
+            copy = list(path)
+            copy.append(starting_vertex)
+            visited.add(starting_vertex)
+            if starting_vertex == destination_vertex:
+                return copy
             for next_vertex in self.get_neighbors(starting_vertex):
-                self.dfs_recursive(next_vertex, destination_vertex, visited, path)
-
+                n = self.dfs_recursive(next_vertex, destination_vertex, visited, copy)
+                if n:
+                    return n
 
 
 if __name__ == '__main__':
