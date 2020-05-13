@@ -74,16 +74,22 @@ class Graph:
 
         This should be done using recursion.
         """
+        # Initalize visited to a set when function is run
         if visited is None:
             visited = set()
+        # Add the starting vertex to visited
         visited.add(starting_vertex)
+        # Print
         print(starting_vertex)
-    
+        # Get all the possible connections for the starting vertex
         connections = self.get_neighbors(starting_vertex)
-
+        # While there are connections...
         while len(connections) > 0:
+            # Loop over them
             for next_vertex in connections:
+                # For each connection, check if it has not been visited
                 if next_vertex not in visited:
+                    # If it hasn't, then run the function on that vertex, repeat until all vertexes have been visited.
                     self.dft_recursive(next_vertex, visited)
                 else:
                     return
@@ -94,17 +100,25 @@ class Graph:
         starting_vertex to destination_vertex in
         breadth-first order.
         """
+        # Initialize a Queue
         q = Queue()
+        # Add the starting vertex to Queue
         q.enqueue([starting_vertex])
+        # Initialize a visited set
         visited = set()
-
+        # While Queue is not empty
         while q.size() > 0:
+            # Dequeue whatever is on the Queue, and assign to vert
             vert = q.dequeue()
             vertex = vert[-1]
+            # If vertex not visited
             if vertex not in visited:
+                # add to visited
                 visited.add(vertex)
+                # if the vertex being looked at equals the destination, we've found what we want, return it.
                 if vertex == destination_vertex:
                     return vert
+                # Otherwise, Loop over vertex's neighbors and enqueue
                 else:
                     for next_vertex in self.get_neighbors(vertex):
                         n = list(vert)
@@ -117,17 +131,25 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
+        # Initialize a stack
         s = Stack()
+        # Push starting vertex onto stack
         s.push([starting_vertex])
+        # Initialize visited
         visited = set()
-
+        # While stack is populated...
         while s.size() > 0:
+            # Pop last item added off the stack
             x = s.pop()
             value = x[-1]
+            # Check if it's in visited
             if value not in visited:
+                # Add if not
                 visited.add(value)
+                # If value being looked at equals the target, return it out
                 if value == destination_vertex:
                     return x
+                # otherwise, Loop over the neighbors of value and add to stack, re-run until we've checked everything and stack is empty
                 else:
                     for next_vertex in self.get_neighbors(value):
                         n = list(x)
@@ -146,16 +168,24 @@ class Graph:
 
         This should be done using recursion.
         """
+        # Initalize visited as an empty set
         if visited == None:
             visited = set()
+        # Initialize path as an empty list
         if path == None:
             path = []
+        # If the vertex being looked at is not in visited
         if starting_vertex not in visited:
+            # Create a copy first, so we don't overwrite path back to None when calling the function on itself
             copy = list(path)
+            # Add starting vertex to it
             copy.append(starting_vertex)
+            # Add it to visited so we don't check it again
             visited.add(starting_vertex)
+            # If the starting vertex equals the target, return the copy list
             if starting_vertex == destination_vertex:
                 return copy
+            # otherwise, loop over the starting vertex's neighbors, and run dfs_recursive on them, assign result to n and return it out when the stack empties.
             for next_vertex in self.get_neighbors(starting_vertex):
                 n = self.dfs_recursive(next_vertex, destination_vertex, visited, copy)
                 if n:
